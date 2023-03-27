@@ -1,16 +1,9 @@
 import pygame
+from constantes import *
+from Ator_PacMan import PacMan
 
 
 pygame.init()
-# Cores
-AMARELO = (255, 255, 0)
-VERMELHO = (255, 0, 0)
-AZUL = (0, 0, 255)
-PRETO = (0, 0, 0)
-
-# limites de tela
-WIDTH_TELA = 680
-HEIGHT_TELA = 420
 tela = pygame.display.set_mode((WIDTH_TELA, HEIGHT_TELA), 0)
 
 # variaveis de movimento
@@ -39,4 +32,5 @@ while True:
     for e in pygame.event.get():
         if e.type == pygame.QUIT:
             exit()
+
 
