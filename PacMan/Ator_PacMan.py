@@ -1,8 +1,8 @@
-import pygame
 from constantes import *
+from base import *
 
 
-class PacMan:
+class PacMan(Element, Movivel):
     def __init__(self, tamanho):
         self.coluna: int = 1
         self.linha: int = 1
@@ -14,8 +14,11 @@ class PacMan:
         self.vy: int = 0
         self.coluna_intencao = self.coluna
         self.linha_intencao = self.linha
+        self.vidas = VIDAS
+        self.abertura = 0
+        self.velocidade_da_abertura = 1
 
-    def calcular_regras(self):
+    def calcula_regra(self):
         self.coluna_intencao += self.vx
         self.linha_intencao += self.vy
         self.centro_x = int(self.coluna * self.tamanho + self.raio)
@@ -25,10 +28,16 @@ class PacMan:
         # Desenho de Corpo
         pygame.draw.circle(tela, AMARELO, (self.centro_x, self.centro_y), self.raio)
 
+        self.abertura += self.velocidade_da_abertura
+        if self.abertura > self.raio:
+            self.velocidade_da_abertura = -1
+        if self. abertura <= 0:
+            self.velocidade_da_abertura = 1
+
         # Desenho de Boca
         canto_boca = (self.centro_x, self.centro_y)
-        labio_superior = (self.centro_x + self.raio, self.centro_y - self.raio)
-        labio_inferior = (self.centro_x + self.raio, self.centro_y)
+        labio_superior = (self.centro_x + self.raio, self.centro_y - self.abertura)
+        labio_inferior = (self.centro_x + self.raio, self.centro_y + self.abertura)
         pontos = [canto_boca, labio_superior, labio_inferior]
         pygame.draw.polygon(tela, PRETO, pontos, 0)
 
@@ -38,10 +47,22 @@ class PacMan:
         olho_raio = int(self.raio / 8)
         pygame.draw.circle(tela, PRETO, (olho_x, olho_y), olho_raio, 0)
 
-    def aceitar_movimento(self):
+    def aceita_movimento(self):
         self.linha = self.linha_intencao
         self.coluna = self.coluna_intencao
-    def processar_eventos(self, eventos):
+
+    def reset(self):
+        self.linha = LIN_PAC
+        self.coluna = COL_PAC
+
+    def recusa_movimento(self, direcoes):
+        self.linha_intencao = self.linha
+        self.coluna_intencao = self.coluna
+
+    def esquina(self, direcoes):
+        pass
+
+    def processa_evento(self, eventos):
         self.movimentos_por_tecla(eventos)
     def movimentos_por_tecla(self, eventos):
         for e in eventos:
