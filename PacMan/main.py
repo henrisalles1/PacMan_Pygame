@@ -7,15 +7,15 @@ from Ator_PacMan import PacMan
 pygame.init()
 tela = pygame.display.set_mode((WIDTH_TELA, HEIGHT_TELA), 0)
 
-
 if __name__ == '__main__':
     tamanho = TAMANHO
     pacman = PacMan(tamanho)
-    cenario = Cenario(tamanho)
+    cenario = Cenario(tamanho, pacman)
 
     while True:
         # Calcular Regras
         pacman.calcular_regras()
+        cenario.calcular_regras()
 
         # Pintar tela
         tela.fill(PRETO)

@@ -1,3 +1,8 @@
+import pygame
+
+
+pygame.init()
+
 # Cores
 AMARELO = (255, 255, 0)
 VERMELHO = (255, 0, 0)
@@ -13,3 +18,6 @@ VELOCIDADE: int = 1
 
 CELULAS = 30
 TAMANHO = 600 // 30
+
+FONTE = pygame.font.SysFont("arial", 20, True, False)
+

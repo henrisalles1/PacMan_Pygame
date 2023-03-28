@@ -12,10 +12,12 @@ class PacMan:
         self.raio: int = self.tamanho // 2
         self.vx: int = 0
         self.vy: int = 0
+        self.coluna_intencao = self.coluna
+        self.linha_intencao = self.linha
 
     def calcular_regras(self):
-        self.coluna += self.vx
-        self.linha += self.vy
+        self.coluna_intencao += self.vx
+        self.linha_intencao += self.vy
         self.centro_x = int(self.coluna * self.tamanho + self.raio)
         self.centro_y = int(self.linha * self.tamanho + self.raio)
 
@@ -36,20 +38,22 @@ class PacMan:
         olho_raio = int(self.raio / 8)
         pygame.draw.circle(tela, PRETO, (olho_x, olho_y), olho_raio, 0)
 
-
+    def aceitar_movimento(self):
+        self.linha = self.linha_intencao
+        self.coluna = self.coluna_intencao
     def processar_eventos(self, eventos):
         self.movimentos_por_tecla(eventos)
     def movimentos_por_tecla(self, eventos):
         for e in eventos:
             if e.type == pygame.KEYDOWN:
                 if e.key == pygame.K_RIGHT:
-                    self.vx = 1
+                    self.vx = VELOCIDADE
                 if e.key == pygame.K_LEFT:
-                    self.vx = -1
+                    self.vx = -VELOCIDADE
                 if e.key == pygame.K_UP:
-                    self.vy = -1
+                    self.vy = -VELOCIDADE
                 if e.key == pygame.K_DOWN:
-                    self.vy = 1
+                    self.vy = VELOCIDADE
             elif e.type == pygame.KEYUP:
                 if e.key == pygame.K_RIGHT or pygame.K_LEFT:
                     self.vx = 0
