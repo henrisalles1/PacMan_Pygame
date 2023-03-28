@@ -1,16 +1,25 @@
 import pygame
 from constantes import *
 
-pygame.init()
-tela_teste = pygame.display.set_mode((WIDTH_TELA, HEIGHT_TELA), 0)
+
 class PacMan:
-    def __init__(self):
+    def __init__(self, tamanho):
+        self.coluna: int = 1
+        self.linha: int = 1
         self.centro_x: int = WIDTH_TELA//2
         self.centro_y: int = HEIGHT_TELA//2
-        self.tamanho: int = TAMANHO
-        self.raio: int = self.tamanho//2
+        self.tamanho: int = tamanho
+        self.raio: int = self.tamanho // 2
+        self.vx: int = 0
+        self.vy: int = 0
 
-    def pintar_virado_direita(self, tela):
+    def calcular_regras(self):
+        self.coluna += self.vx
+        self.linha += self.vy
+        self.centro_x = int(self.coluna * self.tamanho + self.raio)
+        self.centro_y = int(self.linha * self.tamanho + self.raio)
+
+    def pintar(self, tela):
         # Desenho de Corpo
         pygame.draw.circle(tela, AMARELO, (self.centro_x, self.centro_y), self.raio)
 
@@ -28,16 +37,21 @@ class PacMan:
         pygame.draw.circle(tela, PRETO, (olho_x, olho_y), olho_raio, 0)
 
 
-if __name__=='__main__':
-    pacman = PacMan()
-
-    while True:
-        # Pintar a tela
-        pacman.pintar_virado_direita(tela_teste)
-        pygame.display.update()
-
-        for e in pygame.event.get():
-            if e.type == pygame.QUIT:
-                exit()
-
-
+    def processar_eventos(self, eventos):
+        self.movimentos_por_tecla(eventos)
+    def movimentos_por_tecla(self, eventos):
+        for e in eventos:
+            if e.type == pygame.KEYDOWN:
+                if e.key == pygame.K_RIGHT:
+                    self.vx = 1
+                if e.key == pygame.K_LEFT:
+                    self.vx = -1
+                if e.key == pygame.K_UP:
+                    self.vy = -1
+                if e.key == pygame.K_DOWN:
+                    self.vy = 1
+            elif e.type == pygame.KEYUP:
+                if e.key == pygame.K_RIGHT or pygame.K_LEFT:
+                    self.vx = 0
+                if e.key == pygame.K_DOWN or pygame.K_UP:
+                    self.vy = 0

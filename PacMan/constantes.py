@@ -5,8 +5,11 @@ AZUL = (0, 0, 255)
 PRETO = (0, 0, 0)
 
 # limites de tela
-WIDTH_TELA: int = 680
-HEIGHT_TELA: int = 420
+WIDTH_TELA: int = 1200
+HEIGHT_TELA: int = 600
 
 # Ator PacMan
-TAMANHO: int = 50
+VELOCIDADE: int = 1
+
+CELULAS = 30
+TAMANHO = 600 // 30
